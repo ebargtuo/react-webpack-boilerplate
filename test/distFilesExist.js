@@ -12,6 +12,10 @@ var expectedFilesInDistDir = [
 
     "index.html",
 
+    "assets/",
+        "assets/js/",
+            "assets/js/main.js",
+
     "vendor/",
         "vendor/css/",
             "vendor/css/normalize.css",
