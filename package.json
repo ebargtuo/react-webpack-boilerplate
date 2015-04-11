@@ -6,12 +6,20 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "projectConfig": {
-    "dir": {
+    "dirs": {
       "src": "src",
-      "dist": "dist"
+      "dist": "dist",
+      "vendor": "dist/vendor"
     }
   },
   "author": "ebargtuo",
   "private": true,
-  "license": "BSD-2-Clause"
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "normalize.css": "~3.0.3"
+  },
+  "devDependencies": {
+    "gulp": "~3.8.11",
+    "del": "~1.1.1"
+  }
 }
