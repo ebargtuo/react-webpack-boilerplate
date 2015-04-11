@@ -3,6 +3,7 @@
 var gulp = require("gulp");
 var connect = require("gulp-connect");
 var runSequence = require("run-sequence");
+var mocha = require("gulp-mocha");
 
 var pkg = require("./package.json");
 var config = pkg.projectConfig;
@@ -32,6 +33,12 @@ gulp.task("copy:normalize", function() {
                .pipe(gulp.dest(config.dirs.vendor + "/css"));
 });
 
+gulp.task("test", function() {
+    return gulp.src("test/**.js", {read: false})
+        // gulp-mocha needs filepaths so you can"t have any plugins before it
+        .pipe(mocha());
+});
+
 gulp.task("connect", function() {
     connect.server({
         root: config.dirs.dist,
@@ -47,6 +54,7 @@ gulp.task("build", function(done) {
     runSequence(
         "clean",
         "copy",
+        "test",
     done);
 });
 
