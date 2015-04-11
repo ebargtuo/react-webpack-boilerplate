@@ -1,0 +1,17 @@
+{
+  "node": true,
+  "browser": true,
+  "bitwise": true,
+  "curly": true,
+  "eqeqeq": true,
+  "immed": true,
+  "latedef": true,
+  "newcap": true,
+  "noarg": true,
+  "singleGroups": true,
+  "undef": true,
+  "unused": true,
+  "strict": true,
+  "globals": {
+  }
+}
