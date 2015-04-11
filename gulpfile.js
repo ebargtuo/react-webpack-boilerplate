@@ -1,6 +1,8 @@
 "use strict";
 
 var gulp = require("gulp");
+var connect = require("gulp-connect");
+var runSequence = require("run-sequence");
 
 var pkg = require("./package.json");
 var config = pkg.projectConfig;
@@ -30,11 +32,27 @@ gulp.task("copy:normalize", function() {
                .pipe(gulp.dest(config.dirs.vendor + "/css"));
 });
 
+gulp.task("connect", function() {
+    connect.server({
+        root: config.dirs.dist,
+        port: 5000
+    });
+});
+
 //
 // MAIN TASKS
 //
 
-gulp.task("default", [
-    "clean",
-    "copy"
-]);
+gulp.task("build", function(done) {
+    runSequence(
+        "clean",
+        "copy",
+    done);
+});
+
+gulp.task("default", function(done) {
+    runSequence(
+        "build",
+        "connect",
+    done);
+});
