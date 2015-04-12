@@ -1,9 +1,11 @@
 "use strict";
 
 var gulp = require("gulp");
+var gutil = require("gulp-util");
 var connect = require("gulp-connect");
 var runSequence = require("run-sequence");
 var mocha = require("gulp-mocha");
+var webpack = require("webpack");
 
 var pkg = require("./package.json");
 var config = pkg.projectConfig;
@@ -24,7 +26,7 @@ gulp.task("copy", [
 ]);
 
 gulp.task("copy:src", function() {
-    return gulp.src(config.dirs.src + "/**")
+    return gulp.src(config.dirs.src + "/**.html")
                .pipe(gulp.dest(config.dirs.dist));
 });
 
@@ -37,6 +39,19 @@ gulp.task("test", function() {
     return gulp.src("test/**.js", {read: false})
         // gulp-mocha needs filepaths so you can"t have any plugins before it
         .pipe(mocha());
+});
+
+gulp.task("webpack", function(callback) {
+    // run webpack
+    webpack(require("./webpack.config.js"), function(err, stats) {
+        if (err) {
+            throw new gutil.PluginError("webpack", err);
+        }
+        gutil.log("[webpack]", stats.toString({
+            // output options
+        }));
+        callback();
+    });
 });
 
 gulp.task("connect", function() {
@@ -54,6 +69,7 @@ gulp.task("build", function(done) {
     runSequence(
         "clean",
         "copy",
+        "webpack",
         "test",
     done);
 });
