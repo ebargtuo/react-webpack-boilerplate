@@ -6,6 +6,7 @@ var connect = require("gulp-connect");
 var runSequence = require("run-sequence");
 var mocha = require("gulp-mocha");
 var webpack = require("webpack");
+var WebpackDevServer = require("webpack-dev-server");
 
 var pkg = require("./package.json");
 var config = pkg.projectConfig;
@@ -54,6 +55,27 @@ gulp.task("webpack", function(callback) {
     });
 });
 
+gulp.task("webpack-dev-server", function(callback) {
+    // Start a webpack-dev-server
+    var compiler = webpack(require("./webpack.config.js"));
+
+    new WebpackDevServer(compiler, {
+        // server and middleware options
+        contentBase: config.dirs.dist,
+        publicPath: config.dirs.dist,
+        stats: {colors: true}
+    }).listen(5000, "0.0.0.0", function(err) {
+        if (err) {
+            throw new gutil.PluginError("webpack-dev-server", err);
+        }
+        // Server listening
+        gutil.log("[webpack-dev-server]", "http://localhost:8080/webpack-dev-server/index.html");
+
+        // keep the server alive or continue?
+        // callback();
+    });
+});
+
 gulp.task("connect", function() {
     connect.server({
         root: config.dirs.dist,
@@ -77,6 +99,6 @@ gulp.task("build", function(done) {
 gulp.task("default", function(done) {
     runSequence(
         "build",
-        "connect",
+        "webpack-dev-server",
     done);
 });
