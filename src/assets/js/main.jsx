@@ -1,8 +1,9 @@
 var React = require("react");
+var Hello = require("./components/hello");
 
 document.getElementsByTagName("html")[0].className = "js";
 
 React.render(
-    <h1>React boilerplate</h1>,
+    <Hello/>,
     document.getElementById("root")
 );
