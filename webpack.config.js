@@ -15,5 +15,10 @@ module.exports = {
         loaders: [
             {test: /\.jsx$/, loader: "jsx-loader?insertPragma=React.DOM"}
         ]
+    },
+    devServer: {
+        contentBase: dirs.dist,
+        publicPath: "/assets/js/",
+        stats: {colors: true}
     }
 };
